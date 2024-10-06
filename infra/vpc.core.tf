@@ -18,40 +18,26 @@ resource "aws_vpc" "core" {
 # 10.0.0.255 : Network Broadcast Address (reserved)
 # Each subnet will have 251 usable IP addresses.
 resource "aws_subnet" "core_private" {
-  for_each = {
-    for idx in range(local.core_az_count) :
-    "subnet-private-${local.az_suffix[idx]}" => {
-      cidr_block        = cidrsubnet(local.core_vpc_cidr, 8, idx)
-      availability_zone = "${local.core_region}${local.az_suffix[idx]}"
-    }
-  }
-
+  count             = local.core_az_count
   vpc_id            = aws_vpc.core.id
-  cidr_block        = each.value.cidr_block
-  availability_zone = each.value.availability_zone
+  cidr_block        = cidrsubnet(local.core_vpc_cidr, 8, count.index)
+  availability_zone = "${local.core_region}${local.az_suffix[count.index]}"
 
   tags = {
-    Name = "${terraform.workspace}-core-${each.key}"
+    Name = "${terraform.workspace}-core-subnet-private-${local.az_suffix[count.index]}"
   }
 }
 
 
 
 resource "aws_subnet" "core_public" {
-  for_each = {
-    for idx in range(local.core_az_count) :
-    "subnet-public-${local.az_suffix[idx]}" => {
-      cidr_block        = cidrsubnet(local.core_vpc_cidr, 8, idx + local.core_az_count + 10)
-      availability_zone = "${local.core_region}${local.az_suffix[idx]}"
-    }
-  }
-
+  count             = local.core_az_count
   vpc_id            = aws_vpc.core.id
-  cidr_block        = each.value.cidr_block
-  availability_zone = each.value.availability_zone
+  cidr_block        = cidrsubnet(local.core_vpc_cidr, 8, count.index + local.core_az_count + 10)
+  availability_zone = "${local.core_region}${local.az_suffix[count.index]}"
 
   tags = {
-    Name = "${terraform.workspace}-core-${each.key}"
+    Name = "${terraform.workspace}-core-subnet-public-${local.az_suffix[count.index]}"
   }
 }
 
@@ -73,17 +59,15 @@ resource "aws_route_table" "core_private" {
 }
 
 resource "aws_route_table_association" "core_public" {
-  for_each = aws_subnet.core_public
-
-  subnet_id      = each.value.id
+  count          = local.core_az_count
+  subnet_id      = aws_subnet.core_public[count.index].id
   route_table_id = aws_route_table.core_public.id
 }
 
 
 resource "aws_route_table_association" "core_private" {
-  for_each = aws_subnet.core_private
-
-  subnet_id      = each.value.id
+  count          = local.core_az_count
+  subnet_id      = aws_subnet.core_private[count.index].id
   route_table_id = aws_route_table.core_private.id
 }
 
