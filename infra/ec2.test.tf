@@ -51,7 +51,7 @@ resource "aws_security_group" "allow_ssh" {
   }
 
   tags = {
-    Name = "Allow SSH"
+    Name = "${terraform.workspace}-allow-ssh"
   }
 }
 
