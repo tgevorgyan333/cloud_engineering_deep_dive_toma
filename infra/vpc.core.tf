@@ -54,3 +54,37 @@ resource "aws_subnet" "core_public" {
     Name = "${terraform.workspace}-core-${each.key}"
   }
 }
+
+
+resource "aws_route_table" "core_public" {
+  vpc_id = aws_vpc.core.id
+
+  tags = {
+    Name = "${terraform.workspace}-core-public-rt"
+  }
+}
+
+resource "aws_route_table" "core_private" {
+  vpc_id = aws_vpc.core.id
+
+  tags = {
+    Name = "${terraform.workspace}-core-private-rt"
+  }
+}
+
+resource "aws_route_table_association" "core_public" {
+  for_each = aws_subnet.core_public
+
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.core_public.id
+}
+
+
+resource "aws_route_table_association" "core_private" {
+  for_each = aws_subnet.core_private
+
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.core_private.id
+}
+
+
