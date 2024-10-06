@@ -34,3 +34,44 @@ infra/terraform.rc
 .env
 
 infra/pub_keys/*
+
+
+
+
+
+# Terraform files
+main/.terraform/
+main/*.tfstate
+main/*.tfstate.*
+main/crash.log
+main/*.tfvars
+main/override.tf
+main/override.tf.json
+main/*_override.tf
+main/*_override.tf.json
+main/.terraformrc
+main/terraform.rc
+main/.terraform.lock.hcl
+
+# Local .terraform directories
+main/**/.terraform/*
+
+# Crash log files
+main/crash.log
+main/crash.*.log
+
+# Exclude all .tfvars files, which are likely to contain sensitive data
+main/*.tfvars
+main/*.tfvars.json
+
+# Ignore CLI configuration files
+main/.terraformrc
+main/terraform.rc
+
+# Keep .terraform/environment file
+!main/.terraform/environment
+
+# Other project-specific ignores
+.env
+
+main/pub_keys/*

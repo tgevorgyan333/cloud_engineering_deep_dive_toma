@@ -1,5 +1,5 @@
 module "network_secret_ro" {
-  source    = "./utils/asm-ro"
+  source    = "../modules/sm-reader"
   secret_id = "${terraform.workspace}/core-infra-secrets"
 }
 
