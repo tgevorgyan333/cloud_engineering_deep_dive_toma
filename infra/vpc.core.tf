@@ -88,3 +88,17 @@ resource "aws_route_table_association" "core_private" {
 }
 
 
+resource "aws_internet_gateway" "core" {
+  vpc_id = aws_vpc.core.id
+
+  tags = {
+    Name = "${terraform.workspace}-core-igw"
+  }
+}
+
+resource "aws_route" "core_public_internet_access" {
+  route_table_id = aws_route_table.core_public.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.core.id
+}
+
