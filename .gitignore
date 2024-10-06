@@ -32,3 +32,5 @@ infra/terraform.rc
 
 # Other project-specific ignores
 .env
+
+infra/pub_keys/*
