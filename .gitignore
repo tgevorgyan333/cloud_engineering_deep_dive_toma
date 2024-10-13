@@ -35,6 +35,7 @@ infra/terraform.rc
 
 infra/pub_keys/*
 
+main/vpn_files/*
 
 
 
