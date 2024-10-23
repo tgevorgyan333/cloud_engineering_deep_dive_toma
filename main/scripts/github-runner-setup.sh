@@ -2,7 +2,7 @@
 
 # Update and install necessary packages
 sudo apt-get update -y
-sudo apt-get install -y curl jq unzip
+sudo apt-get install -y curl jq unzip nodejs
 
 # Variables from Terraform
 GITHUB_TOKEN="${github_token}"

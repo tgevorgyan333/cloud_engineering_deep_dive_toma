@@ -1,6 +1,6 @@
 resource "aws_instance" "github_runner" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.nano"
+  instance_type = "t2.micro"
   user_data = base64encode(templatefile("${path.module}/scripts/github-runner-setup.sh", {
     github_token = local.github_token,
     runner_label = local.runner_label,
