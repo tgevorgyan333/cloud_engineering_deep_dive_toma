@@ -34,3 +34,4 @@ terraform.rc
 .env
 
 pub_keys/*
+.DS_Store

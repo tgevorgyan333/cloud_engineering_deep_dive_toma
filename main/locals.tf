@@ -11,12 +11,12 @@ locals {
   az_suffix = ["a", "b", "c", "d", "e", "f"]
 
   # Main Component Configurations.
-  main_name_prefix    = "main"
-  main_region         = data.aws_region.current.name
-  main_az_count       = module.network_secret_ro.secret_map["az_count"]
-  main_vpc_cidr       = module.network_secret_ro.secret_map["vpc_cidr"]
-  main_vpn_cidr       = "10.20.0.0/24" # Need to be changed in the openvpn-setup.sh as well
-  main_vpc_space_cidr = module.network_secret_ro.secret_map["vpc_space_cidr"]
+  prefix         = "${terraform.workspace}-hub"
+  region         = data.aws_region.current.name
+  az_count       = module.network_secret_ro.secret_map["az_count"]
+  vpc_cidr       = module.network_secret_ro.secret_map["vpc_cidr"]
+  vpn_cidr       = "10.20.0.0/24"
+  vpc_space_cidr = module.network_secret_ro.secret_map["vpc_space_cidr"]
 
   # Core Component Configurations.
   core_workspaces = jsondecode(module.network_secret_ro.secret_map["core_workspaces"])
@@ -50,7 +50,7 @@ locals {
   }
 
 
-  flattened_route_tables = flatten([
+  flattened_core_route_tables = flatten([
     for workspace, route_tables in local.core_private_route_table_ids : [
       for rt_id in route_tables : {
         workspace = workspace
