@@ -1,0 +1,42 @@
+name: Terraform Plan
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'main/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'main/**'
+
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.5.0
+
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ./main
+
+    - name: Terraform Format Check
+      run: terraform fmt -check
+      working-directory: ./main
+
+    - name: Terraform Plan
+      run: terraform plan
+      working-directory: ./main
+      env:
+        # Add any necessary environment variables for your Terraform configuration
+        # For example:
+        # TF_VAR_example: ${{ secrets.TF_VAR_EXAMPLE }}
