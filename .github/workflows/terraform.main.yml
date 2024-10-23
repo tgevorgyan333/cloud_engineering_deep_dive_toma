@@ -23,10 +23,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Get GitHub Actions OIDC subject claim
+      id: get_subject_claim
+      run: |
+        SUBJECT_CLAIM=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r '.value' | jq -r '.sub')
+        echo "Subject claim: $SUBJECT_CLAIM"
+        echo "subject_claim=$SUBJECT_CLAIM" >> $GITHUB_OUTPUT
+
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ROLE_TO_ASSUME }}
+        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ROLE_NAME }}
         aws-region: us-east-1
         role-session-name: GitHubActionsTerraformSession
 
