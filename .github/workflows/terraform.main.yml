@@ -6,11 +6,14 @@ on:
       - main
     paths:
       - 'main/**'
+      - '.github/workflows/terraform.main.yml'
   pull_request:
     branches:
       - main
     paths:
       - 'main/**'
+      - '.github/workflows/terraform.main.yml'
+
 
 jobs:
   terraform:
