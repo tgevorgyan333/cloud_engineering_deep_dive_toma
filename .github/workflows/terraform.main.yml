@@ -40,7 +40,7 @@ jobs:
         if [[ "${{ github.event_name }}" == "pull_request" ]]; then
           echo "TERRAFORM_WORKSPACE=${{ github.base_ref }}" >> $GITHUB_ENV
         else
-          echo "TERRAFORM_WORKSPACE=${{ github.head_ref }}" >> $GITHUB_ENV
+          echo "TERRAFORM_WORKSPACE=${GITHUB_REF##*/}" >> $GITHUB_ENV
         fi
 
     - name: Terraform Init
