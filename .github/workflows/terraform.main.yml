@@ -6,11 +6,14 @@ on:
       - main
     paths:
       - 'main/**'
+      - '.github/workflows/terraform.main.yml'
   pull_request:
     branches:
       - main
     paths:
       - 'main/**'
+      - '.github/workflows/terraform.main.yml'
+
 
 jobs:
   terraform:
@@ -40,7 +43,7 @@ jobs:
         if [[ "${{ github.event_name }}" == "pull_request" ]]; then
           echo "TERRAFORM_WORKSPACE=${{ github.base_ref }}" >> $GITHUB_ENV
         else
-          echo "TERRAFORM_WORKSPACE=${{ github.head_ref }}" >> $GITHUB_ENV
+          echo "TERRAFORM_WORKSPACE=${GITHUB_REF##*/}" >> $GITHUB_ENV
         fi
 
     - name: Terraform Init
@@ -66,10 +69,10 @@ jobs:
       working-directory: ./main
 
     - name: Terraform Plan
-      run: terraform plan -no-color
+      run: terraform plan
       working-directory: ./main
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve -no-color
+      run: terraform apply -auto-approve
       working-directory: ./main
