@@ -2,44 +2,30 @@ resource "aws_instance" "openvpn_server" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   key_name      = aws_key_pair.openvpn_key.key_name
-  subnet_id     = aws_subnet.network[0].id
+  subnet_id     = aws_subnet.main[0].id
 
   vpc_security_group_ids = [aws_security_group.openvpn_sg.id]
 
   user_data = base64encode(file("${path.module}/scripts/openvpn-setup.sh"))
 
   tags = {
-    Name = "OpenVPN-Server"
+    Name = "${local.prefix}-openvpn-server"
   }
 }
 
-
-resource "aws_instance" "openvpn_server2" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-  key_name      = aws_key_pair.openvpn_key.key_name
-  subnet_id     = aws_subnet.network[0].id
-
-  vpc_security_group_ids = [aws_security_group.openvpn_sg.id]
-
-
-  tags = {
-    Name = "OpenVPN-Server-2"
-  }
-}
 
 resource "aws_eip" "openvpn_eip" {
   instance = aws_instance.openvpn_server.id
   domain   = "vpc"
 
   tags = {
-    Name = "OpenVPN-EIP"
+    Name = "${local.prefix}-openvpn-eip"
   }
 }
 
 # Security Group for OpenVPN Server
 resource "aws_security_group" "openvpn_sg" {
-  name        = "openvpn-security-group"
+  name        = "${local.prefix}-openvpn-security-group"
   description = "Security group for OpenVPN server"
   vpc_id      = aws_vpc.main.id
 
@@ -65,14 +51,14 @@ resource "aws_security_group" "openvpn_sg" {
   }
 
   tags = {
-    Name = "OpenVPN-SecurityGroup"
+    Name = "${local.prefix}-openvpn-security-group"
   }
 }
 
 # Key Pair for SSH access
 resource "aws_key_pair" "openvpn_key" {
-  key_name   = "openvpn-key"
-  public_key = file("${path.module}/pub_keys/dev_core_instance_access.pub")
+  key_name   = "${local.prefix}-openvpn-key"
+  public_key = local.openvpn_public_key
 }
 
 # Data source for Ubuntu AMI

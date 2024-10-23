@@ -5,18 +5,27 @@ module "network_secret_ro" {
 
 
 data "aws_region" "current" {}
+data "aws_caller_identity" "current" {}
 
 
 locals {
   az_suffix = ["a", "b", "c", "d", "e", "f"]
 
   # Main Component Configurations.
-  main_name_prefix    = "main"
-  main_region         = data.aws_region.current.name
-  main_az_count       = module.network_secret_ro.secret_map["az_count"]
-  main_vpc_cidr       = module.network_secret_ro.secret_map["vpc_cidr"]
-  main_vpn_cidr       = "10.20.0.0/24" # Need to be changed in the openvpn-setup.sh as well
-  main_vpc_space_cidr = module.network_secret_ro.secret_map["vpc_space_cidr"]
+  prefix              = "${terraform.workspace}-hub"
+  region              = data.aws_region.current.name
+  az_count            = module.network_secret_ro.secret_map["az_count"]
+  vpc_cidr            = module.network_secret_ro.secret_map["vpc_cidr"]
+  vpn_cidr            = "10.20.0.0/24"
+  vpc_space_cidr      = module.network_secret_ro.secret_map["vpc_space_cidr"]
+  github_token        = module.network_secret_ro.secret_map["github_token"]
+  repo_url            = module.network_secret_ro.secret_map["repo_url"]
+  runner_label        = "main-runner"
+  openvpn_public_key  = file("${path.module}/pub_keys/dev_core_instance_access.pub")
+  github_public_key   = file("${path.module}/pub_keys/dev_core_instance_access.pub")
+  ec2_runner_iam_role = module.network_secret_ro.secret_map["ec2_runner_iam_role"]
+  github_org          = module.network_secret_ro.secret_map["github_org"]
+  github_repo_name    = module.network_secret_ro.secret_map["github_repo_name"]
 
   # Core Component Configurations.
   core_workspaces = jsondecode(module.network_secret_ro.secret_map["core_workspaces"])
@@ -50,7 +59,7 @@ locals {
   }
 
 
-  flattened_route_tables = flatten([
+  flattened_core_route_tables = flatten([
     for workspace, route_tables in local.core_private_route_table_ids : [
       for rt_id in route_tables : {
         workspace = workspace
