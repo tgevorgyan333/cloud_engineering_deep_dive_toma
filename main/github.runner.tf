@@ -13,6 +13,18 @@ resource "aws_instance" "github_runner" {
   subnet_id              = aws_subnet.main[0].id
   vpc_security_group_ids = [aws_security_group.github_runner_sg.id]
 
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes = [
+      ami,
+      associate_public_ip_address,
+      user_data_replace_on_change,
+    ]
+  }
+
+  user_data_replace_on_change = true
+
+
   tags = {
     Name = "${local.prefix}-github-runner"
   }
