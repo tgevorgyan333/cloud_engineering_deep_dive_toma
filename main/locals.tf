@@ -17,6 +17,11 @@ locals {
   vpc_cidr       = module.network_secret_ro.secret_map["vpc_cidr"]
   vpn_cidr       = "10.20.0.0/24"
   vpc_space_cidr = module.network_secret_ro.secret_map["vpc_space_cidr"]
+  github_token   = module.network_secret_ro.secret_map["github_token"]
+  repo_url       = module.network_secret_ro.secret_map["repo_url"]
+  runner_label   = "main-runner"
+  openvpn_public_key = file("${path.module}/pub_keys/dev_core_instance_access.pub")
+  github_public_key  = file("${path.module}/pub_keys/dev_core_instance_access.pub")
 
   # Core Component Configurations.
   core_workspaces = jsondecode(module.network_secret_ro.secret_map["core_workspaces"])
