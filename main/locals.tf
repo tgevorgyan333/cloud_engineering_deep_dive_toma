@@ -22,7 +22,7 @@ locals {
   runner_label   = "main-runner"
   openvpn_public_key = file("${path.module}/pub_keys/dev_core_instance_access.pub")
   github_public_key  = file("${path.module}/pub_keys/dev_core_instance_access.pub")
-
+  ec2_runner_iam_role = module.network_secret_ro.secret_map["ec2_runner_iam_role"]
   # Core Component Configurations.
   core_workspaces = jsondecode(module.network_secret_ro.secret_map["core_workspaces"])
   core_vpc_ids = {
