@@ -59,17 +59,6 @@ jobs:
           echo "Workspace $TERRAFORM_WORKSPACE does not exist. Creating it."
           terraform workspace new $TERRAFORM_WORKSPACE
         fi
-        
-        # Verify the current workspace
-        CURRENT_WORKSPACE=$(terraform workspace show)
-        echo "Current Terraform workspace: $CURRENT_WORKSPACE"
-        
-        if [ "$CURRENT_WORKSPACE" != "$TERRAFORM_WORKSPACE" ]; then
-          echo "Error: Current workspace ($CURRENT_WORKSPACE) does not match TERRAFORM_WORKSPACE ($TERRAFORM_WORKSPACE)"
-          exit 1
-        else
-          echo "Confirmed: Using workspace $TERRAFORM_WORKSPACE"
-        fi
       working-directory: ./main
 
     - name: Terraform Format Check
