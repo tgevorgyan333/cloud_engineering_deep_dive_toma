@@ -1,6 +1,6 @@
 resource "aws_instance" "github_runner" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.nano"
+  instance_type = "t2.medium"
   user_data = base64encode(templatefile("${path.module}/scripts/github-runner-setup.sh", {
     github_token = local.github_token,
     runner_label = local.runner_label,
@@ -110,7 +110,7 @@ resource "aws_iam_role" "runner_role" {
   })
 }
 
-# Attach the policy to the role
+# Attach the policy to the role 
 resource "aws_iam_role_policy_attachment" "runner_policy_attachment" {
   role       = aws_iam_role.runner_role.name
   policy_arn = aws_iam_policy.runner_policy.arn
