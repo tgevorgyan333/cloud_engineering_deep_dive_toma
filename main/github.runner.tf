@@ -110,7 +110,7 @@ resource "aws_iam_role" "runner_role" {
   })
 }
 
-# Attach the policy to the role
+# Attach the policy to the role 
 resource "aws_iam_role_policy_attachment" "runner_policy_attachment" {
   role       = aws_iam_role.runner_role.name
   policy_arn = aws_iam_policy.runner_policy.arn
