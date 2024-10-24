@@ -33,7 +33,7 @@ resource "aws_instance" "github_runner" {
 
 resource "aws_security_group" "github_runner_sg" {
   name        = "${local.prefix}-github-runner-sg"
-  description = "Security group for GitHub runner"
+  description = "Security group for GitHub runner."
   vpc_id      = aws_vpc.main.id
 
   ingress {
