@@ -1,5 +1,5 @@
 resource "aws_instance" "github_runner" {
-  count = 0
+  count         = 0
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.medium"
   user_data = base64encode(templatefile("${path.module}/scripts/github-runner-setup.sh", {
