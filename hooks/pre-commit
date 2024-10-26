@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Run Terraform format check
+terraform fmt -check -recursive
+
+# Run Terraform validation
+terraform validate
+
+# If any command failed, exit with a non-zero status
+if [ $? -ne 0 ]; then
+  echo "Pre-commit checks failed. Please fix the issues and try again."
+  exit 1
+fi
+
+exit 0
