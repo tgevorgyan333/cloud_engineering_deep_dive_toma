@@ -80,6 +80,7 @@ jobs:
   tfapply:
     needs: tfplan
     runs-on: ubuntu-latest
+    environment: dev-infra-deploy
     permissions:
       id-token: write
       contents: read
