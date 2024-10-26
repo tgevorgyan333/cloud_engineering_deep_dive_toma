@@ -7,7 +7,7 @@ data "aws_region" "current" {}
 
 
 locals {
-  az_suffix    = ["a", "b", "c", "d", "e", "f"]
+  az_suffix = ["a", "b", "c", "d", "e", "f"]
 
   # Core Component Configurations.
   core_name_prefix = "${terraform.workspace}.core"
