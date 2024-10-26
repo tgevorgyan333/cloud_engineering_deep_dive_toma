@@ -33,7 +33,6 @@ infra/terraform.rc
 # Other project-specific ignores
 .env
 
-infra/pub_keys/*
 
 main/vpn_files/*
 
@@ -75,5 +74,5 @@ main/terraform.rc
 # Other project-specific ignores
 .env
 
-main/pub_keys/*
 .DS_Store
+.history

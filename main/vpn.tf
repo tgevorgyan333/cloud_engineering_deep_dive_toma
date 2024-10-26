@@ -58,7 +58,7 @@ resource "aws_security_group" "openvpn_sg" {
 # Key Pair for SSH access
 resource "aws_key_pair" "openvpn_key" {
   key_name   = "${local.prefix}-openvpn-key"
-  public_key = file("${path.module}/pub_keys/dev_core_instance_access.pub")
+  public_key = local.openvpn_public_key
 }
 
 # Data source for Ubuntu AMI
