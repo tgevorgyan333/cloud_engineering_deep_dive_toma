@@ -13,6 +13,6 @@ locals {
   core_name_prefix = "${terraform.workspace}.core"
   core_az_count    = module.network_secret_ro.secret_map["core_az_count"]
   core_vpc_cidr    = module.network_secret_ro.secret_map["core_vpc_cidr"]
-  project_name     = module.network_secret_ro.secret_map["project_name"]
+  project_name     = "cloud-deep-dive"
   core_region      = data.aws_region.current.name
 }
