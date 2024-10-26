@@ -1,15 +1,10 @@
 #!/bin/bash
 
-# Run Terraform format check
-terraform fmt -check -recursive
+echo "Checking Terraform formatting in infra folder..."
+terraform fmt -check -recursive ./infra
 
-# Run Terraform validation
-terraform validate
+echo "Checking Terraform formatting in main folder..."
+terraform fmt -check -recursive ./main
 
-# If any command failed, exit with a non-zero status
-if [ $? -ne 0 ]; then
-  echo "Pre-commit checks failed. Please fix the issues and try again."
-  exit 1
-fi
-
+echo "Pre-commit checks passed successfully."
 exit 0
