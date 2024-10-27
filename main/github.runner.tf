@@ -37,13 +37,13 @@ resource "aws_security_group" "github_runner_sg" {
   description = "Security group for GitHub runner."
   vpc_id      = aws_vpc.main.id
 
-  ingress {
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = [aws_security_group.openvpn_sg.id]
-    description     = "Allow SSH from OpenVPN"
-  }
+  # ingress {
+  #   from_port       = 22
+  #   to_port         = 22
+  #   protocol        = "tcp"
+  #   security_groups = [aws_security_group.openvpn_sg.id]
+  #   description     = "Allow SSH from OpenVPN"
+  # }
 
   egress {
     from_port   = 0
