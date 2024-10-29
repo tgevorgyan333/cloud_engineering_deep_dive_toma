@@ -3,7 +3,7 @@ terraform {
     bucket         = "myawsbucket-toma"
     dynamodb_table = "terraform_state_lock"
     encrypt        = true
-    key            = "projects/myawsbucket-toma.tfstate"
+    key            = "projects/myawsbucket-infra.tfstate"
     region         = "us-east-1"
   }
 }

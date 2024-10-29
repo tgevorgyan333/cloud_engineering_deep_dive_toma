@@ -3,7 +3,7 @@ data "terraform_remote_state" "projects" {
   backend  = "s3"
   config = {
     bucket               = "myawsbucket-toma"
-    key                  = "projects/myawsbucket-toma.tfstate"
+    key                  = "projects/myawsbucket-infra.tfstate"
     region               = "us-east-1"
     workspace_key_prefix = "env:"
   }

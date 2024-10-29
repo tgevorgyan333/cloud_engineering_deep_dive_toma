@@ -8,7 +8,7 @@ data "aws_region" "current" {}
 
 locals {
   az_suffix    = ["a", "b", "c", "d", "e", "f"]
-  project_name = var.project_name
+  project_name = "cloud_engineering_deep_dive"
 
   # Core Component Configurations.
   core_name_prefix = "${terraform.workspace}.core"
