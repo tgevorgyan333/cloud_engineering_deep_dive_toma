@@ -21,10 +21,9 @@ jobs:
       - name: Setup AWS CLI
         uses: aws-actions/configure-aws-credentials@v3
         with:
-        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ROLE_TO_ASSUME }}
-        role-to-assume: arn:aws:iam::1231345:role/github-actions-role
-        aws-region: us-east-1
-        role-session-name: GitHubActionsTerraformSession
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: us-east-1
+          role-session-name: GitHubActionsTerraformSession
       # Step 3: Zip the Lambda code
       - name: Zip Lambda Code
         run: |
